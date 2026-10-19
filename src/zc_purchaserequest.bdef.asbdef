@@ -1,0 +1,32 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_PurchaseRequest alias PurchaseRequest
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Submit;
+  use action Approve;
+  use action Reject;
+
+  use association _Item { create; }
+
+  side effects {
+    action Submit affects $self, _Item;
+    action Approve affects $self;
+    action Reject affects $self;
+  }
+}
+
+define behavior for ZC_PurchaseRequestItem alias Item
+{
+  use update;
+  use delete;
+  use association _Header;
+
+  side effects {
+    field Quantity, NetPrice affects field NetAmount;
+  }
+}

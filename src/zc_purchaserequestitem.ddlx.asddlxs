@@ -1,0 +1,115 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Purchase Request Item',
+    typeNamePlural: 'Items',
+    title: { type: #STANDARD, value: 'ItemNo' },
+    description: { type: #STANDARD, value: 'Material' }
+  }
+}
+annotate entity ZC_PurchaseRequestItem with
+{
+  @UI.facet: [{
+    id: 'Item',
+    purpose: #STANDARD,
+    type: #IDENTIFICATIONREFERENCE,
+    label: 'Item',
+    position: 10
+  }]
+
+  @UI.hidden: true
+  ItemUuid;
+
+  @UI.hidden: true
+  PrUuid;
+
+  @UI: {
+    lineItem:       [{ position: 10, importance: #HIGH }],
+    identification: [{ position: 10 }]
+  }
+  ItemNo;
+
+  @UI: {
+    lineItem:       [{ position: 20, importance: #HIGH }],
+    identification: [{ position: 20 }]
+  }
+  Material;
+
+  @UI: {
+    lineItem:       [{ position: 30 }],
+    identification: [{ position: 30 }]
+  }
+  MaterialGroup;
+
+  @UI: {
+    lineItem:       [{ position: 40, importance: #HIGH }],
+    identification: [{ position: 40 }]
+  }
+  Plant;
+
+  @UI.identification: [{ position: 50 }]
+  StorageLocation;
+
+  @UI: {
+    lineItem:       [{ position: 50, importance: #HIGH }],
+    identification: [{ position: 60 }]
+  }
+  Quantity;
+
+  @UI: {
+    lineItem:       [{ position: 60 }],
+    identification: [{ position: 70 }]
+  }
+  UnitOfMeasure;
+
+  @UI: {
+    lineItem:       [{ position: 70 }],
+    identification: [{ position: 80 }]
+  }
+  NetPrice;
+
+  @UI.identification: [{ position: 90 }]
+  CurrencyCode;
+
+  @UI: {
+    lineItem:       [{ position: 80, importance: #HIGH }],
+    identification: [{ position: 100 }]
+  }
+  NetAmount;
+
+  @UI.identification: [{ position: 110 }]
+  AccountAssignmentCategory;
+
+  @UI.identification: [{ position: 120 }]
+  CostCenter;
+
+  @UI.identification: [{ position: 130 }]
+  GLAccount;
+
+  @UI: {
+    lineItem:       [{ position: 90 }],
+    identification: [{ position: 140 }]
+  }
+  DeliveryDate;
+
+  @UI: {
+    lineItem:       [{ position: 100 }],
+    identification: [{ position: 150 }]
+  }
+  ItemText;
+
+  @UI.hidden: true
+  CreatedBy;
+
+  @UI.hidden: true
+  CreatedAt;
+
+  @UI.hidden: true
+  LastChangedBy;
+
+  @UI.hidden: true
+  LastChangedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

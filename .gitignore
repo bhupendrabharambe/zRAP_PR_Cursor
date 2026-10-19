@@ -1,0 +1,4 @@
+*.abapgit.lock
+.cache/
+.idea/
+*.bak

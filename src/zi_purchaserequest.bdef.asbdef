@@ -1,0 +1,101 @@
+managed implementation in class zbp_i_purchaserequest unique;
+strict ( 2 );
+
+define behavior for ZI_PurchaseRequest alias PurchaseRequest
+persistent table zpr_header
+lock master
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update ( features : instance );
+  delete ( features : instance );
+
+  field ( numbering : managed, readonly ) PrUuid;
+  field ( readonly ) PrId, Status, TotalNetAmount, RejectReason,
+                     CreatedBy, CreatedAt, LastChangedBy, LastChangedAt, LocalLastChangedAt;
+  field ( mandatory ) Description, CompanyCode, CurrencyCode;
+
+  association _Item { create ( features : instance ); }
+
+  action ( features : instance ) Submit result [1] $self;
+  action ( features : instance ) Approve result [1] $self;
+  action ( features : instance ) Reject parameter ZI_PRRejectReason result [1] $self;
+
+  determination SetDefaults on modify { create; }
+  determination SetPrId on save { create; }
+  determination CalculateTotal on save { create, update; }
+
+  validation ValidateHeader on save { create, update; }
+
+  mapping for zpr_header
+  {
+    PrUuid                  = pr_uuid;
+    PrId                    = pr_id;
+    Description             = description;
+    Requestor               = requestor;
+    CompanyCode             = company_code;
+    PurchasingOrganization  = purch_org;
+    PurchasingGroup         = purch_group;
+    RequestDate             = request_date;
+    NeededBy                = needed_by;
+    Status                  = status;
+    CurrencyCode            = currency_code;
+    TotalNetAmount          = total_net_amount;
+    Notes                   = notes;
+    RejectReason            = reject_reason;
+    CreatedBy               = created_by;
+    CreatedAt               = created_at;
+    LastChangedBy           = last_changed_by;
+    LastChangedAt           = last_changed_at;
+    LocalLastChangedAt      = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_PurchaseRequestItem alias Item
+persistent table zpr_item
+lock dependent by _Header
+authorization dependent by _Header
+etag master LocalLastChangedAt
+{
+  update ( features : instance );
+  delete ( features : instance );
+
+  field ( numbering : managed, readonly ) ItemUuid;
+  field ( readonly ) PrUuid, ItemNo, NetAmount,
+                     CreatedBy, CreatedAt, LastChangedBy, LastChangedAt, LocalLastChangedAt;
+  field ( mandatory ) Material, Plant, Quantity, UnitOfMeasure, NetPrice, CurrencyCode;
+
+  association _Header;
+
+  determination SetItemDefaults on modify { create; }
+  determination SetItemNo on save { create; }
+  determination CalculateAmounts on save { create, update, delete; }
+  validation ValidateItem on save { create, update; }
+
+  mapping for zpr_item
+  {
+    ItemUuid                   = item_uuid;
+    PrUuid                     = pr_uuid;
+    ItemNo                     = item_no;
+    Material                   = material;
+    MaterialGroup              = material_group;
+    Plant                      = plant;
+    StorageLocation            = storage_location;
+    Quantity                   = quantity;
+    UnitOfMeasure              = uom;
+    NetPrice                   = net_price;
+    CurrencyCode               = currency_code;
+    NetAmount                  = net_amount;
+    AccountAssignmentCategory  = acct_assgmt_cat;
+    CostCenter                 = cost_center;
+    GLAccount                  = gl_account;
+    DeliveryDate               = delivery_date;
+    ItemText                   = item_text;
+    CreatedBy                  = created_by;
+    CreatedAt                  = created_at;
+    LastChangedBy              = last_changed_by;
+    LastChangedAt              = last_changed_at;
+    LocalLastChangedAt         = local_last_changed_at;
+  }
+}

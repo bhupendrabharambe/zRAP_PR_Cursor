@@ -1,0 +1,143 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Purchase Request',
+    typeNamePlural: 'Purchase Requests',
+    title: { type: #STANDARD, value: 'PrId' },
+    description: { type: #STANDARD, value: 'Description' }
+  },
+  presentationVariant: [{
+    qualifier: 'Default',
+    sortOrder: [{ by: 'PrId', direction: #DESC }],
+    visualizations: [{ type: #AS_LINEITEM }]
+  }]
+}
+annotate entity ZC_PurchaseRequest with
+{
+  @UI.facet: [
+    {
+      id: 'Header',
+      purpose: #STANDARD,
+      type: #IDENTIFICATIONREFERENCE,
+      label: 'Header',
+      position: 10
+    },
+    {
+      id: 'Items',
+      purpose: #STANDARD,
+      type: #LINEITEMREFERENCE,
+      label: 'Items',
+      position: 20,
+      targetElement: '_Item'
+    },
+    {
+      id: 'Admin',
+      purpose: #STANDARD,
+      type: #FIELDGROUPREFERENCE,
+      label: 'Administrative Data',
+      position: 30,
+      targetQualifier: 'Admin'
+    }
+  ]
+
+  @UI.hidden: true
+  PrUuid;
+
+  @UI: {
+    lineItem: [
+      { position: 10, importance: #HIGH },
+      { type: #FOR_ACTION, dataAction: 'Submit',  label: 'Submit',  position: 80 },
+      { type: #FOR_ACTION, dataAction: 'Approve', label: 'Approve', position: 90 },
+      { type: #FOR_ACTION, dataAction: 'Reject',  label: 'Reject',  position: 100 }
+    ],
+    identification: [
+      { position: 10 },
+      { type: #FOR_ACTION, dataAction: 'Submit',  label: 'Submit',  position: 200 },
+      { type: #FOR_ACTION, dataAction: 'Approve', label: 'Approve', position: 210 },
+      { type: #FOR_ACTION, dataAction: 'Reject',  label: 'Reject',  position: 220 }
+    ],
+    selectionField: [{ position: 10 }]
+  }
+  PrId;
+
+  @UI: {
+    lineItem:       [{ position: 20, importance: #HIGH }],
+    identification: [{ position: 20 }],
+    selectionField: [{ position: 20 }]
+  }
+  Description;
+
+  @UI: {
+    lineItem:       [{ position: 30 }],
+    identification: [{ position: 30 }],
+    selectionField: [{ position: 30 }]
+  }
+  Requestor;
+
+  @UI: {
+    lineItem:       [{ position: 40 }],
+    identification: [{ position: 40 }],
+    selectionField: [{ position: 40 }]
+  }
+  CompanyCode;
+
+  @UI.identification: [{ position: 50 }]
+  PurchasingOrganization;
+
+  @UI.identification: [{ position: 60 }]
+  PurchasingGroup;
+
+  @UI: {
+    lineItem:       [{ position: 50 }],
+    identification: [{ position: 70 }],
+    selectionField: [{ position: 50 }]
+  }
+  RequestDate;
+
+  @UI.identification: [{ position: 80 }]
+  NeededBy;
+
+  @UI: {
+    lineItem:       [{ position: 60, importance: #HIGH, criticality: 'StatusCriticality' }],
+    identification: [{ position: 90, criticality: 'StatusCriticality' }],
+    selectionField: [{ position: 60 }],
+    textArrangement: #TEXT_ONLY
+  }
+  Status;
+
+  @UI.hidden: true
+  StatusText;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI: {
+    lineItem:       [{ position: 70 }],
+    identification: [{ position: 100 }]
+  }
+  TotalNetAmount;
+
+  @UI.identification: [{ position: 110 }]
+  CurrencyCode;
+
+  @UI.identification: [{ position: 120 }]
+  Notes;
+
+  @UI.identification: [{ position: 130 }]
+  RejectReason;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 10 }]
+  CreatedBy;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 20 }]
+  CreatedAt;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 30 }]
+  LastChangedBy;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 40 }]
+  LastChangedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

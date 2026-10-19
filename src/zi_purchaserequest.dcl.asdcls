@@ -1,0 +1,10 @@
+@EndUserText.label: 'Access Control for Purchase Request'
+@MappingRole: true
+define role ZI_PurchaseRequest {
+  grant
+    select
+    on
+      ZI_PurchaseRequest
+    where
+      true = true;
+}
